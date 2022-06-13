@@ -46,20 +46,31 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (persons.findIndex(p => p.name === newName) === -1 && persons.findIndex(p => p.number === newNumber) === -1) {
+    if (persons.findIndex(p => p.name === newName) === -1) {
       const newPerson = {
         name: newName,
         number: newNumber
       };
 
-      personService.create(newPerson).then(p => {
-        let newPersons = persons.concat(p);
+      personService.create(newPerson).then(response => {
+        let newPersons = persons.concat(response);
         setPersons(newPersons);
         setFilteredPersons(newPersons);  
+
+        console.log(newPersons)
       });
     }
     else {
-      alert(`${newName} or ${newNumber} is already added to phonebook`);
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)) {
+        let person = filteredPersons.find(p => p.name === newName);
+        person = {...person, number: newNumber};
+  
+        personService.update(person.id, person).then(response => {
+          let newPersons = persons.map(p => p.id !== person.id ? p : response);
+          setPersons(newPersons);
+          setFilteredPersons(newPersons);
+        });          
+      }
     }
     setNewName('');
     setNewNumber('');

@@ -12,12 +12,20 @@ const create = newObject => {
 }
 
 const deletePerson = id => {
-  const url = `${baseUrl}/${id}`
+  const url = `${baseUrl}/${id}`;
   return axios.delete(url);
+}
+
+const update = (id, person) => {
+  const url = `${baseUrl}/${id}`;
+  console.log('url', url)
+  const request = axios.put(url, person)
+  return request.then(response => response.data);
 }
 
 export default { 
     getAll,
     create,
+    update,
     deletePerson
   }
