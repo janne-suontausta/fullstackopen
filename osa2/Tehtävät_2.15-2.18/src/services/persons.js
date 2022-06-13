@@ -8,10 +8,16 @@ const getAll = () => {
 
 const create = newObject => {
   const request = axios.post(baseUrl, newObject);
-  return request.then(response => request.data);
+  return request.then(response => response.data);
+}
+
+const deletePerson = id => {
+  const url = `${baseUrl}/${id}`
+  return axios.delete(url);
 }
 
 export default { 
     getAll,
-    create
+    create,
+    deletePerson
   }

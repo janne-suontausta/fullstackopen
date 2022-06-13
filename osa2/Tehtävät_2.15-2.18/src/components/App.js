@@ -53,7 +53,7 @@ const App = () => {
       };
 
       personService.create(newPerson).then(p => {
-        let newPersons = persons.concat(newPerson);
+        let newPersons = persons.concat(p);
         setPersons(newPersons);
         setFilteredPersons(newPersons);  
       });
@@ -66,6 +66,14 @@ const App = () => {
     setNameFilter('');
   };
 
+  const deletePerson = (id) => {
+    personService.deletePerson(id).then(p => {
+      let newPersons = persons.filter(p => p.id !== id);
+      setPersons(newPersons);
+      setFilteredPersons(newPersons);  
+    });
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -73,7 +81,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm name={newName} nameChange={handleNameChange} number={newNumber} numberChange={handleNumberChange} addPerson={addPerson}/>
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons}/>
+      <Persons persons={filteredPersons} deletePerson={deletePerson}/>
     </div>
   )
 

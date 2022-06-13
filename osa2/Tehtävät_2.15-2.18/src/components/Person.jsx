@@ -1,8 +1,8 @@
 const Person = (props) => {
     return (
-      <div>
-        <p>{props.name} {props.number}</p>
-      </div>
+      <>
+        <p>{props.name} {props.number} <button onClick={() => props.deletePerson(props.id)}>delete</button></p>
+      </>
     )
   }
   
