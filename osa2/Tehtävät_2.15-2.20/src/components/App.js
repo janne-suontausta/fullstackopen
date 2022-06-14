@@ -4,6 +4,7 @@ import Filter from "./Filter"
 import Persons from "./Persons";
 import PersonForm from "./PersonForm";
 import personService from "../services/persons.js";
+import Note from "./Note";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [nameFilter, setNameFilter] = useState('');
+  const [note, setNote] = useState(null);
 
   useEffect(() => {
     personService
@@ -55,9 +57,12 @@ const App = () => {
       personService.create(newPerson).then(response => {
         let newPersons = persons.concat(response);
         setPersons(newPersons);
-        setFilteredPersons(newPersons);  
+        setFilteredPersons(newPersons);
 
-        console.log(newPersons)
+        setNote(`Added ${newName}`);
+        setTimeout(() => {
+          setNote(null);
+        }, 2000)
       });
     }
     else {
@@ -88,6 +93,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Note note={note} />
       <Filter name={nameFilter} filterChange={handleNameFilterChange} />
       <h2>Add a new</h2>
       <PersonForm name={newName} nameChange={handleNameChange} number={newNumber} numberChange={handleNumberChange} addPerson={addPerson}/>
