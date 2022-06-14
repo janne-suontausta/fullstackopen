@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Country from "./Country";
+import CountryList from "./CountryList";
 
 const App = () =>  {
   const [countries, setCountries] = useState([]);
@@ -28,6 +29,12 @@ const App = () =>  {
     }
   };
 
+  const showCountry = (country) => {
+    let countries = [];
+    countries.push(country);
+    setFilteredCountries(countries);
+  }
+
   if (filteredCountries.length === 0) {
     return (
       <div>
@@ -51,7 +58,7 @@ const App = () =>  {
         <div>
           find countries: <input value={filter} onChange={handleFilterChange}/>
         </div>
-        {filteredCountries.map(c => <p key={c.name.official}>{c.name.common}</p>)}
+        {filteredCountries.map(c => <CountryList country={c} showCountry={showCountry} />)}
       </div>
     );
   }
